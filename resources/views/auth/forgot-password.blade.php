@@ -3,85 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Forgot Password - Notario</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0d3b49',
+                        secondary: '#ff9f1c',
+                        accent: '#17b897'
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 3s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+    </style>
 </head>
-<body>
-<x-app-layout>
-    <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <!-- Background Gradients -->
-        <div class="fixed inset-0 -z-10 overflow-hidden">
-            <div class="absolute -top-20 left-1/4 w-[500px] h-[500px] bg-[#21616A] rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob"></div>
-            <div class="absolute top-1/3 -right-20 w-[600px] h-[600px] bg-[#2E9CA0] rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob animation-delay-2000"></div>
-            <div class="absolute -bottom-20 left-1/3 w-[550px] h-[550px] bg-[#EFA00F] rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-blob animation-delay-4000"></div>
+<body class="bg-primary hero-pattern text-white font-poppins min-h-screen flex flex-col">
+    <!-- Navigation Bar -->
+    <nav class="flex justify-between items-center p-5 border-b border-gray-700/50 backdrop-blur-sm bg-primary/70 sticky top-0 z-50">
+        <div class="text-2xl font-bold flex items-center">
+            <a href="{{ route('home') }}">
+                <img src="{{ asset('images/notario-logo.png') }}" alt="Notario" class="h-8 mr-2">
+            </a>
         </div>
+        <div class="space-x-3">
+            <a href="{{ route('login') }}" class="px-4 py-2 text-white hover:text-accent transition-colors">Log In</a>
+            <a href="{{ route('register') }}" class="px-5 py-2 bg-accent rounded-full text-white hover:bg-accent/80 transition-all shadow-lg shadow-accent/20">Sign In</a>
+        </div>
+    </nav>
 
-        <!-- Forgot Password Container -->
-        <div class="max-w-md w-full">
-            <!-- Card -->
-            <div class="relative">
-                <!-- Card Glow Effect -->
-                <div class="absolute -inset-1 bg-gradient-to-r from-[#2E9CA0] to-[#EFA00F] rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-1000"></div>
-                
-                <!-- Card Content -->
-                <div class="relative bg-[#0F2C33]/80 backdrop-blur-xl p-8 rounded-2xl border border-[#2E9CA0]/30 shadow-2xl">
-                    <!-- Header -->
-                    <div class="mb-8 text-center">
-                        <h2 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#2E9CA0] to-[#EFA00F] mb-3">Reset Password</h2>
-                        <p class="text-[#E6D1B4]/70 text-sm">
-                            Enter your email address and we'll send you a link to reset your password.
-                        </p>
-                    </div>
-
-                    <!-- Status Message -->
-                    @if (session('status'))
-                        <div class="mb-6 p-4 bg-[#2E9CA0]/20 border border-[#2E9CA0]/30 rounded-xl">
-                            <p class="text-sm text-[#E6D1B4]">{{ session('status') }}</p>
-                        </div>
-                    @endif
-
-                    <!-- Form -->
-                    <form method="POST" action="{{ route('password.email') }}" class="space-y-6">
-                        @csrf
-
-                        <!-- Email -->
-                        <div class="space-y-2">
-                            <label for="email" class="block text-sm font-medium text-[#E6D1B4]">Email</label>
-                            <div class="relative">
-                                <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus
-                                    class="w-full bg-[#21616A]/20 border border-[#2E9CA0]/30 rounded-xl px-4 py-3 text-[#E6D1B4] 
-                                    focus:border-[#EFA00F] focus:ring-1 focus:ring-[#EFA00F] transition-all duration-200
-                                    placeholder-[#E6D1B4]/30"
-                                    placeholder="Enter your registered email">
-                            </div>
-                            @error('email')
-                                <p class="text-sm text-[#EFA00F]">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Submit Button -->
-                        <button type="submit"
-                            class="w-full px-4 py-3 bg-gradient-to-r from-[#2E9CA0] to-[#21616A] hover:from-[#EFA00F] hover:to-[#2E9CA0] 
-                            rounded-xl text-[#E6D1B4] font-semibold transition-all duration-500 hover:scale-[1.02]">
-                            Send Reset Link
-                        </button>
-
-                        <!-- Back to Login -->
-                        <div class="text-center mt-6">
-                            <a href="{{ route('login') }}"
-                                class="inline-flex items-center text-[#2E9CA0] hover:text-[#EFA00F] transition-colors duration-200">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                                </svg>
-                                Back to Login
-                            </a>
-                        </div>
-                    </form>
-                </div>
+    <!-- Forgot Password Form Section -->
+    <div class="flex-grow flex items-center justify-center py-10">
+        <div class="bg-[#0a2c37] p-8 rounded-3xl shadow-2xl border border-gray-700/30 backdrop-blur-sm w-full max-w-md relative overflow-hidden">
+            <div class="absolute -z-10 w-72 h-72 bg-accent/10 rounded-full blur-3xl top-20 -right-20"></div>
+            <div class="absolute -z-10 w-72 h-72 bg-secondary/10 rounded-full blur-3xl -bottom-20 -left-20"></div>
+            
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Forgot Password</h2>
+                <p class="text-gray-300">Enter your email to receive a password reset link</p>
             </div>
+            
+            @if (session('status'))
+                <div class="bg-accent/20 text-accent p-4 rounded-lg mb-6">
+                    {{ session('status') }}
+                </div>
+            @endif
+            
+            <!-- Form Forgot Password -->
+            <form action="{{ route('password.email') }}" method="POST" class="space-y-6">
+                @csrf
+                
+                @if ($errors->any())
+                    <div class="bg-red-500/20 text-red-500 p-3 rounded-lg mb-4">
+                        <ul class="list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                
+                <div class="space-y-2">
+                    <label for="email" class="block text-gray-300">Email</label>
+                    <input type="email" id="email" name="email" value="{{ old('email') }}" class="w-full px-4 py-3 bg-gray-100 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-accent" required autofocus>
+                </div>
+                
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-3 bg-accent rounded-lg text-white font-medium hover:bg-accent/80 transition-all shadow-lg shadow-accent/20">
+                        Send Password Reset Link
+                    </button>
+                </div>
+                
+                <div class="text-center text-sm text-gray-400">
+                    <a href="{{ route('login') }}" class="text-accent hover:underline">Back to login</a>
+                </div>
+            </form>
         </div>
     </div>
-</x-app-layout>
-
+    
+    <!-- Footer -->
+    <footer class="border-t border-gray-700/50 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center space-x-4 text-xs text-gray-400">
+                <a href="{{ route('home') }}" class="hover:text-white">Home</a>
+                <span>|</span>
+                <a href="{{ route('login') }}" class="hover:text-white">Login</a>
+                <span>|</span>
+                <a href="{{ route('register') }}" class="hover:text-white">Register</a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
